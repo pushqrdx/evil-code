@@ -1,0 +1,285 @@
+{
+  "name": "evil-code",
+  "version": "1.30.1-pre",
+  "publisher": "pushqrdx",
+  "icon": "images/icon.png",
+  "displayName": "Evil Code",
+  "description": "The Vim mode for Visual Studio Code that works as expected.",
+  "galleryBanner": {
+    "color": "#232323",
+    "theme": "dark"
+  },
+  "keywords": [
+    "vim",
+    "vi",
+    "vintage",
+    "keybindings",
+    "mode"
+  ],
+  "categories": [
+    "Other",
+    "Keymaps"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pushqrdx/evil-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pushqrdx/evil-code/issues"
+  },
+  "homepage": "https://github.com/pushqrdx/evil-code#readme",
+  "author": "pushqrdx",
+  "license": "ISC",
+  "engines": {
+    "node": "^8.6.0",
+    "npm": "^5.6.0",
+    "vscode": "^1.41.0"
+  },
+  "main": "./out/src/extension",
+  "extensionKind": [
+    "ui"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "Evil Configuration",
+      "properties": {
+        "evil.bindCtrlCommands": {
+          "type": "boolean",
+          "default": true,
+          "description": "Set to `false` to disable `Ctrl+<key>` keybindings."
+        },
+        "evil.startInInsertMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to `true` to start in Insert mode when opening files."
+        },
+        "evil.smartRelativeLineNumbers": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to `true` to will make line numbers relative when not in Insert mode."
+        },
+        "evil.mimicVimSearchBehavior": {
+          "type": "boolean",
+          "default": true,
+          "description": "Set to `false` to keep VSCode's keybinding when searching."
+        },
+        "evil.useSystemClipboard": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to `true` to copy to and paste from the system clipboard."
+        },
+        "evil.vimStyleNavigationInListView": {
+          "type": "boolean",
+          "default": true,
+          "description": "Set to `false` to disable Vim style navigation in sidebar."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "evil.delete",
+        "key": "delete",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.space",
+        "key": "space",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.left",
+        "key": "left",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.right",
+        "key": "right",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.up",
+        "key": "up",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.down",
+        "key": "down",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.escape",
+        "key": "escape",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "evil.ctrl+[",
+        "key": "ctrl+[",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands"
+      },
+      {
+        "command": "evil.ctrl+c",
+        "key": "ctrl+c",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands"
+      },
+      {
+        "command": "evil.ctrl+r",
+        "key": "ctrl+r",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
+      },
+      {
+        "command": "evil.ctrl+u",
+        "key": "ctrl+u",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'INSERT'"
+      },
+      {
+        "command": "evil.ctrl+w",
+        "key": "ctrl+w",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'INSERT'"
+      },
+      {
+        "command": "evil.ctrl+f",
+        "key": "ctrl+f",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.ctrl+b",
+        "key": "ctrl+b",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode != 'INSERT'"
+      },
+      {
+        "key": "enter",
+        "command": "evil.executeNativeFind",
+        "when": "evil.configuration.shouldMimicVimSearchBehavior && editorFocus && findInputFocussed && findWidgetVisible"
+      },
+      {
+        "key": "j",
+        "command": "list.focusDown",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "k",
+        "command": "list.focusUp",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "o",
+        "command": "list.toggleExpand",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "l",
+        "command": "list.select",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "h",
+        "command": "list.collapse",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "g g",
+        "command": "list.focusFirst",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "shift+G",
+        "command": "list.focusLast",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "ctrl+d",
+        "command": "list.focusPageDown",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "ctrl+u",
+        "command": "list.focusPageUp",
+        "when": "evil.configuration.shouldUseVimStyleNavigationInListView && listFocus && !inputFocus"
+      },
+      {
+        "key": "escape",
+        "command": "closeFindWidget",
+        "when": "editorFocus && findWidgetVisible"
+      },
+      {
+        "key": "escape",
+        "command": "closeBreakpointWidget",
+        "when": "breakpointWidgetVisible && editorFocus"
+      },
+      {
+        "key": "escape",
+        "command": "closeMarkersNavigation",
+        "when": "editorFocus && markersNavigationVisible"
+      },
+      {
+        "key": "escape",
+        "command": "closeReferenceSearch",
+        "when": "referenceSearchVisible && !config.editor.stablePeek"
+      },
+      {
+        "key": "escape",
+        "command": "cancelRenameInput",
+        "when": "editorFocus && renameInputVisible"
+      },
+      {
+        "key": "escape",
+        "command": "closeAccessibilityHelp",
+        "when": "accessibilityHelpWidgetVisible && editorFocus"
+      },
+      {
+        "key": "escape",
+        "command": "closeReplaceInFilesWidget",
+        "when": "replaceInputBoxFocus && searchViewletVisible"
+      },
+      {
+        "key": "escape",
+        "command": "workbench.action.closeMessages",
+        "when": "globalMessageVisible"
+      },
+      {
+        "key": "escape",
+        "command": "workbench.action.closeQuickOpen",
+        "when": "inQuickOpen"
+      }
+    ]
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "clean": "rimraf ./out",
+    "compile": "npm run clean && tsc -p ./",
+    "watch": "npm run clean && tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "test": "node ./out/test/runTest.js",
+    "prettier-check": "prettier --list-different '{src,test}/**/*.ts'",
+    "prettier-write": "prettier --write '{src,test}/**/*.ts'"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^8.10.58",
+    "@types/vscode": "^1.41.0",
+    "@typescript-eslint/eslint-plugin": "^2.14.0",
+    "@typescript-eslint/parser": "^2.14.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "glob": "^7.1.6",
+    "mocha": "^6.2.2",
+    "prettier": "^1.19.1",
+    "rimraf": "^2.7.1",
+    "source-map-support": "^0.5.16",
+    "typescript": "^3.7.5",
+    "vscode-test": "^1.3.0"
+  },
+  "dependencies": {
+    "@emmetio/css-parser": "ramya-rao-a/css-parser#vscode",
+    "@emmetio/html-matcher": "^0.3.3",
+    "@emmetio/math-expression": "^0.1.1",
+    "vscode-emmet-helper": "^1.2.17",
+    "vscode-html-languageservice": "^3.0.3"
+  }
+}
