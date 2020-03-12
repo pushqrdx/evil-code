@@ -28,16 +28,20 @@ export class SpecialKeyTextObject extends GenericMapper implements SpecialKeyCom
 
   private mapInfos: TextObjectMapInfo[] = [
     {
-      characters: ['b', '(', ')'],
+      characters: ['b'],
+      method: TextObjectBlock.byBlock,
+    },
+    {
+      characters: ['(', ')'],
       method: TextObjectBlock.byParentheses,
+    },
+    {
+      characters: ['{', '}'],
+      method: TextObjectBlock.byBraces,
     },
     {
       characters: ['[', ']'],
       method: TextObjectBlock.byBrackets,
-    },
-    {
-      characters: ['B', '{', '}'],
-      method: TextObjectBlock.byBraces,
     },
     {
       characters: ['<', '>'],

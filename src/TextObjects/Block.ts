@@ -7,6 +7,24 @@ export class TextObjectBlock extends TextObject {
 
   private openingCharacter: string
   private closingCharacter: string
+  private anyBlock = false
+  private pairCharacters = {
+    '[': ']',
+    '{': '}',
+    '(': ')',
+    '<': '>',
+  }
+  private openingCharacters: string[] = ['[', '{', '(', '<']
+  private closingCharacters: string[] = [']', '}', ')', '>']
+
+  static byBlock(args: { isInclusive: boolean }): TextObject {
+    const obj = new TextObjectBlock()
+
+    obj.isInclusive = args.isInclusive
+    obj.anyBlock = true
+
+    return obj
+  }
 
   static byParentheses(args: { isInclusive: boolean }): TextObject {
     const obj = new TextObjectBlock()
@@ -58,13 +76,18 @@ export class TextObjectBlock extends TextObject {
       let characterIndex = lineIndex === anchor.line ? anchor.character : lineText.length - 1
 
       while (characterIndex >= 0) {
-        if (lineText[characterIndex] === this.closingCharacter) {
+        if (this.closingCharacters.includes(lineText[characterIndex])) {
           // Don't count closing character on anchor.
           if (!anchor.isEqual(new Position(lineIndex, characterIndex))) {
             matchingCount++
           }
-        } else if (lineText[characterIndex] === this.openingCharacter) {
+        } else if (this.openingCharacters.includes(lineText[characterIndex])) {
           if (matchingCount === 0) {
+            if (this.anyBlock) {
+              this.openingCharacter = lineText[characterIndex]
+              this.closingCharacter = this.pairCharacters[lineText[characterIndex]]
+            }
+
             return new Range(lineIndex, characterIndex, lineIndex, characterIndex + 1)
           } else {
             matchingCount--
