@@ -122,6 +122,26 @@
         "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands"
       },
       {
+        "command": "editor.emmet.action.incrementNumberByOne",
+        "key": "ctrl+a",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
+      },
+      {
+        "command": "editor.emmet.action.decrementNumberByOne",
+        "key": "ctrl+x",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
+      },
+      {
+        "command": "editor.emmet.action.incrementNumberByOneTenth",
+        "key": "ctrl+shift+a",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
+      },
+      {
+        "command": "editor.emmet.action.decrementNumberByOneTenth",
+        "key": "ctrl+shift+x",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
+      },
+      {
         "command": "evil.ctrl+r",
         "key": "ctrl+r",
         "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode == 'NORMAL'"
