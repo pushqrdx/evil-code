@@ -1,8 +1,8 @@
-import * as vscode from 'vscode'
 import { HtmlNode, Node } from 'EmmetNode'
 import parse from '@emmetio/html-matcher'
 import parseStylesheet from '@emmetio/css-parser'
 import { isStyleSheet } from 'vscode-emmet-helper'
+import { Range, TextEditor, TextDocument, Position, window } from 'vscode'
 
 import { DocumentStreamReader } from './StreamReader'
 
@@ -14,7 +14,7 @@ export const allowedMimeTypesInScriptTag = [
   'text/ng-template',
 ]
 
-export function parseDocument(document: vscode.TextDocument): Node | undefined {
+export function parseDocument(document: TextDocument): Node | undefined {
   const parseContent = isStyleSheet(document.languageId) ? parseStylesheet : parse
 
   try {
@@ -28,7 +28,7 @@ export function parseDocument(document: vscode.TextDocument): Node | undefined {
 
 export function getNode(
   root: Node | undefined,
-  position: vscode.Position,
+  position: Position,
   includeNodeBoundary: boolean,
 ): Node | null {
   if (!root) {
@@ -39,8 +39,8 @@ export function getNode(
   let foundNode: Node | null = null
 
   while (currentNode) {
-    const nodeStart: vscode.Position = currentNode.start
-    const nodeEnd: vscode.Position = currentNode.end
+    const nodeStart: Position = currentNode.start
+    const nodeEnd: Position = currentNode.end
 
     if (
       (nodeStart.isBefore(position) && nodeEnd.isAfter(position)) ||
@@ -60,9 +60,9 @@ export function getNode(
 }
 
 export function getHtmlNode(
-  document: vscode.TextDocument,
+  document: TextDocument,
   root: Node | undefined,
-  position: vscode.Position,
+  position: Position,
   includeNodeBoundary: boolean,
 ): HtmlNode | undefined {
   let currentNode = getNode(root, position, includeNodeBoundary) as HtmlNode
@@ -89,7 +89,7 @@ export function getHtmlNode(
     const buffer = new DocumentStreamReader(
       document,
       currentNode.open.end,
-      new vscode.Range(currentNode.open.end, currentNode.close.start),
+      new Range(currentNode.open.end, currentNode.close.start),
     )
 
     try {
@@ -106,22 +106,22 @@ export function getHtmlNode(
 }
 
 function getHtmlRange(
-  editor: vscode.TextEditor,
+  editor: TextEditor,
   rootNode: HtmlNode,
-  selection: vscode.Selection,
+  position: Position,
   indentInSpaces: string,
-): vscode.Range[] {
-  const nodeToUpdate = getHtmlNode(editor.document, rootNode, selection.start, true)
+): Range[] {
+  const nodeToUpdate = getHtmlNode(editor.document, rootNode, position, true)
 
   if (!nodeToUpdate) {
     return []
   }
 
-  const openRange = new vscode.Range(nodeToUpdate.open.start, nodeToUpdate.open.end)
-  let closeRange: vscode.Range | null = null
+  const openRange = new Range(nodeToUpdate.open.start, nodeToUpdate.open.end)
+  let closeRange: Range | null = null
 
   if (nodeToUpdate.close) {
-    closeRange = new vscode.Range(nodeToUpdate.close.start, nodeToUpdate.close.end)
+    closeRange = new Range(nodeToUpdate.close.start, nodeToUpdate.close.end)
   }
 
   const ranges = [openRange]
@@ -131,9 +131,9 @@ function getHtmlRange(
       const lineContent = editor.document.lineAt(i).text
 
       if (lineContent.startsWith('\t')) {
-        ranges.push(new vscode.Range(i, 0, i, 1))
+        ranges.push(new Range(i, 0, i, 1))
       } else if (lineContent.startsWith(indentInSpaces)) {
-        ranges.push(new vscode.Range(i, 0, i, indentInSpaces.length))
+        ranges.push(new Range(i, 0, i, indentInSpaces.length))
       }
     }
 
@@ -143,12 +143,12 @@ function getHtmlRange(
   return ranges
 }
 
-export function selectTag(): vscode.Range[] {
-  if (!vscode.window.activeTextEditor) {
+export function selectTag(anchor: Position): Range[] {
+  if (!window.activeTextEditor) {
     return []
   }
 
-  const editor = vscode.window.activeTextEditor
+  const editor = window.activeTextEditor
   const rootNode = parseDocument(editor.document) as HtmlNode
 
   if (!rootNode) {
@@ -162,5 +162,5 @@ export function selectTag(): vscode.Range[] {
     indentInSpaces += ' '
   }
 
-  return getHtmlRange(editor, rootNode, editor.selection, indentInSpaces)
+  return getHtmlRange(editor, rootNode, anchor, indentInSpaces)
 }

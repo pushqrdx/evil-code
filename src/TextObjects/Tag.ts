@@ -1,4 +1,4 @@
-import { Range } from 'vscode'
+import { Range, Position, TextDocument, window } from 'vscode'
 
 import { selectTag } from '../Utils/Emmet'
 
@@ -6,12 +6,17 @@ import { TextObject } from './TextObject'
 
 export class TextObjectTag extends TextObject {
   readonly willFindForward = true
+  protected readonly shouldExpandToLinewise = true
   range: Range[]
+  anchor: Position
 
   constructor() {
     super()
 
-    this.range = selectTag()
+    if (window.activeTextEditor) {
+      this.anchor = window.activeTextEditor.selection.start
+      this.range = selectTag(this.anchor)
+    }
   }
 
   static byTag(args: { isInclusive: boolean }): TextObject {
@@ -21,7 +26,9 @@ export class TextObjectTag extends TextObject {
     return obj
   }
 
-  findStartRange(): Range | null {
+  findStartRange(_: TextDocument, anchor: Position): Range | null {
+    // only reparse if cursor moved
+    if (!anchor.isEqual(this.anchor)) this.range = selectTag(anchor)
     if (this.range.length) return this.range[0]
 
     return null
