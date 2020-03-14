@@ -29,16 +29,18 @@ export class TextObjectAnyBlock extends TextObject {
   private pairs = new Pairs()
   private openingCharacters: string[] = ['[', '{', '(']
   private closingCharacters: string[] = [']', '}', ')']
+  private singleLine = false
 
   private stack: Array<Character> = []
 
   private openingCharacter: Character | null = null
   private closingCharacter: Character | null = null
 
-  static byBlock(args: { isInclusive: boolean }): TextObject {
+  static byBlock(args: { isInclusive: boolean; singleLine: boolean }): TextObject {
     const obj = new TextObjectAnyBlock()
 
     obj.isInclusive = args.isInclusive
+    obj.singleLine = args.singleLine
 
     return obj
   }
@@ -81,7 +83,7 @@ export class TextObjectAnyBlock extends TextObject {
       }
     }
 
-    if (this.openingCharacter === null && num >= 0) {
+    if (this.openingCharacter === null && num >= 0 && !this.singleLine) {
       return this.findStartRange(document, new Position(num - 1, 0))
     }
 
@@ -141,7 +143,7 @@ export class TextObjectAnyBlock extends TextObject {
       }
     }
 
-    if (this.closingCharacter === null && document.lineCount) {
+    if (this.closingCharacter === null && document.lineCount && !this.singleLine) {
       return this.findEndRange(document, new Position(num + 1, 0), true)
     }
 

@@ -31,6 +31,12 @@ export class SpecialKeyTextObject extends GenericMapper implements SpecialKeyCom
     {
       characters: ['b'],
       method: TextObjectAnyBlock.byBlock,
+      args: { singleLine: true },
+    },
+    {
+      characters: ['B'],
+      method: TextObjectAnyBlock.byBlock,
+      args: { singleLine: false },
     },
     {
       characters: ['(', ')'],
