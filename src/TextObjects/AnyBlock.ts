@@ -83,7 +83,7 @@ export class TextObjectAnyBlock extends TextObject {
       }
     }
 
-    if (this.openingCharacter === null && num >= 0 && !this.singleLine) {
+    if (this.openingCharacter === null && num > 0 && !this.singleLine) {
       return this.findStartRange(document, new Position(num - 1, 0))
     }
 

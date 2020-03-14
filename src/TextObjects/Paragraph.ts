@@ -17,7 +17,7 @@ export class TextObjectParagraph extends TextObject {
     const line = document.lineAt(anchor.line)
     const num = line.lineNumber
 
-    if (!line.isEmptyOrWhitespace && num >= 0) {
+    if (!line.isEmptyOrWhitespace && num > 0) {
       return this.findStartRange(document, new Position(num - 1, 0))
     }
 
