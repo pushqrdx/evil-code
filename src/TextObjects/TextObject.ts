@@ -1,6 +1,8 @@
 import { window, TextDocument, Position, Range } from 'vscode'
 
 import { UtilRange } from '../Utils/Range'
+import { getCurrentMode } from '../extension'
+import { ModeID } from '../Modes/Mode'
 
 export abstract class TextObject {
   protected readonly shouldExpandToLinewise: boolean = false
@@ -54,7 +56,12 @@ export abstract class TextObject {
     }
 
     const range = this.createRangeDueToIsInclusive(startRange, endRange)
-    let union = activeTextEditor.selection.union(range)
+
+    let union =
+      activeTextEditor.selection.isEmpty ||
+      this.isSingleCharSelectionInVisualMode(activeTextEditor.selection)
+        ? range
+        : activeTextEditor.selection.union(range)
 
     if (union.isEqual(activeTextEditor.selection)) {
       if (last?.isEqual(union)) {
@@ -69,6 +76,12 @@ export abstract class TextObject {
     }
 
     return union
+  }
+
+  protected isSingleCharSelectionInVisualMode(selection: Range): boolean {
+    const visual = getCurrentMode()?.id === ModeID.VISUAL
+
+    return visual && UtilRange.isSingleCharacter(selection)
   }
 
   protected createRangeDueToIsInclusive(startRange: Range, endRange: Range): Range {
