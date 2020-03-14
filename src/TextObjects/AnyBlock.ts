@@ -13,7 +13,6 @@ class Pairs {
     '{': '}',
     '[': ']',
     '(': ')',
-    '<': '>',
   }
 
   matches(opening: string, closing: string): boolean {
@@ -28,8 +27,8 @@ export class TextObjectAnyBlock extends TextObject {
   protected readonly shouldExpandToLinewise = false
 
   private pairs = new Pairs()
-  private openingCharacters: string[] = ['[', '{', '(', '<']
-  private closingCharacters: string[] = [']', '}', ')', '>']
+  private openingCharacters: string[] = ['[', '{', '(']
+  private closingCharacters: string[] = [']', '}', ')']
 
   private stack: Array<Character> = []
 
