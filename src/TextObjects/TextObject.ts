@@ -37,23 +37,16 @@ export abstract class TextObject {
 
     const activeTextEditor = window.activeTextEditor
 
-    if (!activeTextEditor) {
-      return null
-    }
+    if (!activeTextEditor) return null
 
     const document = activeTextEditor.document
-
     const startRange = this.findStartRange(document, anchor)
 
-    if (startRange === null) {
-      return null
-    }
+    if (startRange === null) return null
 
     const endRange = this.findEndRange(document, anchor)
 
-    if (endRange === null) {
-      return null
-    }
+    if (endRange === null) return null
 
     const range = this.createRangeDueToIsInclusive(startRange, endRange)
 
@@ -64,9 +57,7 @@ export abstract class TextObject {
         : activeTextEditor.selection.union(range)
 
     if (union.isEqual(activeTextEditor.selection)) {
-      if (last?.isEqual(union)) {
-        return union
-      }
+      if (last?.isEqual(union)) return union
 
       return this.apply(union.start.translate(0, -1), union)
     }
