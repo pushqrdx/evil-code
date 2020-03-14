@@ -167,6 +167,16 @@
         "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode != 'INSERT'"
       },
       {
+        "command": "evil.ctrl+e",
+        "key": "ctrl+e",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode != 'INSERT'"
+      },
+      {
+        "command": "evil.ctrl+y",
+        "key": "ctrl+y",
+        "when": "editorTextFocus && evil.configuration.shouldBindCtrlCommands && evil.mode != 'INSERT'"
+      },
+      {
         "key": "enter",
         "command": "evil.executeNativeFind",
         "when": "evil.configuration.shouldMimicVimSearchBehavior && editorFocus && findInputFocussed && findWidgetVisible"

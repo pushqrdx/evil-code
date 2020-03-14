@@ -22,6 +22,7 @@ import { ActionHistory } from '../Actions/History'
 import { ActionIndent } from '../Actions/Indent'
 import { ActionFilter } from '../Actions/Filter'
 import { ActionMode } from '../Actions/Mode'
+import { ActionScroll } from '../Actions/Scroll'
 import { ActionFold } from '../Actions/Fold'
 import { ActionCommandLine } from '../Actions/CommandLine'
 import { MotionCharacter } from '../Motions/Character'
@@ -44,10 +45,10 @@ export class ModeNormal extends Mode {
       actions: [ActionMoveCursor.byMotions],
       args: { noEmptyAtLineEnd: true },
     },
-
     { keys: 'ctrl+b', actions: [ActionPage.up] },
     { keys: 'ctrl+f', actions: [ActionPage.down] },
-
+    { keys: 'ctrl+y', actions: [ActionScroll.up] },
+    { keys: 'ctrl+e', actions: [ActionScroll.down] },
     { keys: 'i', actions: [ActionMode.toInsert] },
     {
       keys: 'I',
