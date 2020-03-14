@@ -41,7 +41,6 @@ export class ModeVisual extends Mode {
       args: { isVisualMode: true },
     },
     { keys: '{textObject}', actions: [ActionSelection.expandByTextObject] },
-
     {
       keys: 'ctrl+b',
       actions: [ActionPage.up],
@@ -52,7 +51,6 @@ export class ModeVisual extends Mode {
       actions: [ActionPage.down],
       args: { moveType: PageMoveType.Select },
     },
-
     {
       keys: 'I',
       actions: [ActionSelection.shrinkToStarts, ActionMode.toInsert],
@@ -61,7 +59,6 @@ export class ModeVisual extends Mode {
       keys: 'A',
       actions: [ActionSelection.shrinkToEnds, ActionMode.toInsert],
     },
-
     {
       keys: 'backspace',
       actions: [ActionDelete.selectionsOrRight],
