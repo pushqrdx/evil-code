@@ -143,7 +143,7 @@ export class TextObjectAnyBlock extends TextObject {
       }
     }
 
-    if (this.closingCharacter === null && document.lineCount && !this.singleLine) {
+    if (this.closingCharacter === null && num < document.lineCount && !this.singleLine) {
       return this.findEndRange(document, new Position(num + 1, 0), true)
     }
 
