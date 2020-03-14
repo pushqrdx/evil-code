@@ -2,7 +2,19 @@
 
 ![icon](images/icon.png)
 
+> This is a fork of the amazing [amVim](https://github.com/aioutecism/amVim-for-VSCode) extension aiming to be more up-to-date and feature complete. For differences see [section](#differences-from-amvim) below
+
 The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visualstudio.com/) that works as expected.
+
+## Differences from amVim
+
+- Repeating motions in visual mode to expand selection
+- AnyBlock TextObject for easy ({[ selections
+- Support for the tag TextObject using Emmet (works everywhere)
+- Supports using system clipboard
+- Scrolling by Line with ctrl+e/ctrl+y
+- Increment/Decrement numbers in Normal Mode with ctrl+x/ctrl+a
+- Paragraph TextObject to select/delete empty line delimited blocks of text
 
 ## Key features
 
@@ -13,9 +25,9 @@ The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visual
 
 ## Not supported
 
-- `:` started commands: Only a few are supported now.
-- Visual Block mode: Please use column-select instead for now.
-- Custom keybindings: On the roadmap.
+- `:` started commands: Only a few are supported now
+- Visual Block mode: Please use column-select instead for now
+- Custom keybindings: On the roadmap
 
 #### `evil.bindCtrlCommands`
 
