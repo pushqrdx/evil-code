@@ -28,7 +28,7 @@ export abstract class TextObject {
     throw new Error('findEndPosition is not implemented.')
   }
 
-  apply(anchor: Position): Range | null {
+  apply(anchor: Position, last?: Range): Range | null {
     if (this.isInclusive === undefined) {
       throw new Error('isInclusive is not set.')
     }
@@ -53,13 +53,22 @@ export abstract class TextObject {
       return null
     }
 
-    let range = this.createRangeDueToIsInclusive(startRange, endRange)
+    const range = this.createRangeDueToIsInclusive(startRange, endRange)
+    let union = activeTextEditor.selection.union(range)
 
-    if (this.shouldExpandToLinewise) {
-      range = this.tryExpandToLinewise(range, document)
+    if (union.isEqual(activeTextEditor.selection)) {
+      if (last?.isEqual(union)) {
+        return union
+      }
+
+      return this.apply(union.start.translate(0, -1), union)
     }
 
-    return range
+    if (this.shouldExpandToLinewise) {
+      union = this.tryExpandToLinewise(union, document)
+    }
+
+    return union
   }
 
   protected createRangeDueToIsInclusive(startRange: Range, endRange: Range): Range {
