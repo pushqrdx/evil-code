@@ -1,5 +1,6 @@
 import { GenericMapper, GenericMap, RecursiveMap, MatchResultKind } from '../Generic'
 import { TextObject } from '../../TextObjects/TextObject'
+import { TextObjectAnyBlock } from '../../TextObjects/AnyBlock'
 import { TextObjectBlock } from '../../TextObjects/Block'
 import { TextObjectQuotedString } from '../../TextObjects/QuotedString'
 import { TextObjectWord } from '../../TextObjects/Word'
@@ -29,7 +30,7 @@ export class SpecialKeyTextObject extends GenericMapper implements SpecialKeyCom
   private mapInfos: TextObjectMapInfo[] = [
     {
       characters: ['b'],
-      method: TextObjectBlock.byBlock,
+      method: TextObjectAnyBlock.byBlock,
     },
     {
       characters: ['(', ')'],

@@ -3,28 +3,10 @@ import { TextDocument, Position, Range } from 'vscode'
 import { TextObject } from './TextObject'
 
 export class TextObjectBlock extends TextObject {
-  protected readonly shouldExpandToLinewise = true
+  protected readonly shouldExpandToLinewise = false
 
   private openingCharacter: string
   private closingCharacter: string
-  private anyBlock = false
-  private pairCharacters = {
-    '[': ']',
-    '{': '}',
-    '(': ')',
-    '<': '>',
-  }
-  private openingCharacters: string[] = ['[', '{', '(', '<']
-  private closingCharacters: string[] = [']', '}', ')', '>']
-
-  static byBlock(args: { isInclusive: boolean }): TextObject {
-    const obj = new TextObjectBlock()
-
-    obj.isInclusive = args.isInclusive
-    obj.anyBlock = true
-
-    return obj
-  }
 
   static byParentheses(args: { isInclusive: boolean }): TextObject {
     const obj = new TextObjectBlock()
@@ -76,18 +58,13 @@ export class TextObjectBlock extends TextObject {
       let characterIndex = lineIndex === anchor.line ? anchor.character : lineText.length - 1
 
       while (characterIndex >= 0) {
-        if (this.closingCharacters.includes(lineText[characterIndex])) {
+        if (lineText[characterIndex] === this.closingCharacter) {
           // Don't count closing character on anchor.
           if (!anchor.isEqual(new Position(lineIndex, characterIndex))) {
             matchingCount++
           }
-        } else if (this.openingCharacters.includes(lineText[characterIndex])) {
+        } else if (lineText[characterIndex] === this.openingCharacter) {
           if (matchingCount === 0) {
-            if (this.anyBlock) {
-              this.openingCharacter = lineText[characterIndex]
-              this.closingCharacter = this.pairCharacters[lineText[characterIndex]]
-            }
-
             return new Range(lineIndex, characterIndex, lineIndex, characterIndex + 1)
           } else {
             matchingCount--
