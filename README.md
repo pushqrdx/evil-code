@@ -8,6 +8,7 @@ The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visual
 
 ## Differences from amVim
 
+- Replace (Overtype) Mode
 - Repeating motions in visual mode to expand selection
 - AnyBlock TextObject for easy ({[ selections
 - Support for the tag TextObject using Emmet (works everywhere)
