@@ -39,7 +39,6 @@ export class ModeInsert extends Mode {
           }),
       ],
     },
-
     {
       keys: 'ctrl+c',
       actions: [

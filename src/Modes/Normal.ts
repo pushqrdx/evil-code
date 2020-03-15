@@ -78,7 +78,6 @@ export class ModeNormal extends Mode {
         ActionMode.toInsert,
       ],
     },
-
     {
       keys: 'o',
       actions: [ActionInsert.newLineAfter, ActionMode.toInsert],
@@ -87,7 +86,6 @@ export class ModeNormal extends Mode {
       keys: 'O',
       actions: [ActionInsert.newLineBefore, ActionMode.toInsert],
     },
-
     {
       keys: 's',
       actions: [ActionDelete.selectionsOrRight, ActionMode.toInsert],
@@ -95,7 +93,21 @@ export class ModeNormal extends Mode {
         shouldYank: true,
       },
     },
-
+    {
+      keys: 'S',
+      actions: [
+        () =>
+          ActionMoveCursor.byMotions({
+            motions: [MotionLine.firstNonBlank()],
+          }),
+        ActionDelete.byMotions,
+        ActionMode.toInsert,
+      ],
+      args: {
+        motions: [MotionLine.end()],
+        shouldYank: true,
+      },
+    },
     {
       keys: 'X',
       actions: [ActionDelete.selectionsOrLeft],
@@ -202,21 +214,6 @@ export class ModeNormal extends Mode {
       },
     },
     {
-      keys: 'S',
-      actions: [
-        () =>
-          ActionMoveCursor.byMotions({
-            motions: [MotionLine.firstNonBlank()],
-          }),
-        ActionDelete.byMotions,
-        ActionMode.toInsert,
-      ],
-      args: {
-        motions: [MotionLine.end()],
-        shouldYank: true,
-      },
-    },
-    {
       keys: 'c {motion}',
       actions: [ActionDelete.byMotions, ActionMode.toInsert],
       args: {
@@ -240,7 +237,6 @@ export class ModeNormal extends Mode {
       },
     },
     { keys: 'J', actions: [ActionJoinLines.onSelections] },
-
     { keys: 'r {char}', actions: [ActionReplace.charactersWithCharacter] },
     {
       keys: '~',
@@ -262,7 +258,6 @@ export class ModeNormal extends Mode {
           }),
       ],
     },
-
     { keys: 'y y', actions: [ActionRegister.yankLines] },
     { keys: '{N} y y', actions: [ActionRegister.yankLines] },
     { keys: 'y {N} y', actions: [ActionRegister.yankLines] },
@@ -274,16 +269,13 @@ export class ModeNormal extends Mode {
     { keys: '{N} p', actions: [ActionRegister.putAfter] },
     { keys: 'P', actions: [ActionRegister.putBefore] },
     { keys: '{N} P', actions: [ActionRegister.putBefore] },
-
     { keys: 'n', actions: [ActionFind.next] },
     { keys: 'N', actions: [ActionFind.prev] },
     { keys: '*', actions: [ActionFind.byIndicator, ActionFind.next] },
     { keys: '#', actions: [ActionFind.byIndicator, ActionFind.prev] },
-
     { keys: '= {motion}', actions: [ActionFilter.Format.byMotions] },
     { keys: '= {N} {motion}', actions: [ActionFilter.Format.byMotions] },
     { keys: '= =', actions: [ActionFilter.Format.byCursors] },
-
     {
       keys: 'u',
       actions: [ActionHistory.undo, ActionSelection.validateSelections],
@@ -292,15 +284,11 @@ export class ModeNormal extends Mode {
       keys: 'ctrl+r',
       actions: [ActionHistory.redo, ActionSelection.validateSelections],
     },
-
     { keys: '< <', actions: [ActionIndent.decrease] },
     { keys: '> >', actions: [ActionIndent.increase] },
-
     { keys: '/', actions: [ActionFind.focusFindWidget] },
-
     { keys: 'v', actions: [ActionMode.toVisual] },
     { keys: 'V', actions: [ActionMode.toVisualLine] },
-
     {
       keys: 'z .',
       actions: [ActionReveal.primaryCursor],
@@ -320,11 +308,8 @@ export class ModeNormal extends Mode {
     { keys: 'z o', actions: [ActionFold.unfold] },
     { keys: 'z M', actions: [ActionFold.foldAll] },
     { keys: 'z R', actions: [ActionFold.unfoldAll] },
-
     { keys: ':', actions: [ActionCommandLine.promptAndRun] },
-
     { keys: '.', actions: [this.repeatRecordedCommandMaps.bind(this)] },
-
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToPrimaryActive],

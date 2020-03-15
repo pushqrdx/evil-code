@@ -40,7 +40,6 @@ export class ModeVisualLine extends Mode {
       actions: [ActionMoveCursor.byMotions],
       args: { isVisualLineMode: true },
     },
-
     {
       keys: 'ctrl+b',
       actions: [ActionPage.up],
@@ -51,7 +50,6 @@ export class ModeVisualLine extends Mode {
       actions: [ActionPage.down],
       args: { moveType: PageMoveType.SelectLine },
     },
-
     {
       keys: 'I',
       actions: [ActionSelection.shrinkToStarts, ActionMode.toInsert],
@@ -60,7 +58,6 @@ export class ModeVisualLine extends Mode {
       keys: 'A',
       actions: [ActionSelection.shrinkToEnds, ActionMode.toInsert],
     },
-
     {
       keys: 'backspace',
       actions: [ActionDelete.byLines],
@@ -155,12 +152,10 @@ export class ModeVisualLine extends Mode {
         isLinewise: true,
       },
     },
-
     {
       keys: 'r {char}',
       actions: [ActionReplace.selectionsWithCharacter, ActionSelection.shrinkToStarts],
     },
-
     {
       keys: '~',
       actions: [ActionCase.switchSelections, ActionSelection.shrinkToStarts],
@@ -177,9 +172,7 @@ export class ModeVisualLine extends Mode {
       keys: 'g ?',
       actions: [ActionCase.rot13Selections, ActionSelection.shrinkToStarts],
     },
-
     { keys: '=', actions: [ActionFilter.Format.bySelections] },
-
     {
       keys: '<',
       actions: [ActionIndent.decrease],
@@ -190,17 +183,13 @@ export class ModeVisualLine extends Mode {
       actions: [ActionIndent.increase],
       args: { isVisualLineMode: true },
     },
-
     { keys: '/', actions: [ActionFind.focusFindWidget] },
-
     { keys: 'v', actions: [ActionMode.toVisual] },
     { keys: 'V', actions: [ActionSelection.shrinkToActives] },
-
     { keys: 'z c', actions: [ActionFold.fold] },
     { keys: 'z o', actions: [ActionFold.unfold] },
     { keys: 'z M', actions: [ActionFold.foldAll] },
     { keys: 'z R', actions: [ActionFold.unfoldAll] },
-
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToActives],
