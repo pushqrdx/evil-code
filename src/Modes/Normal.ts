@@ -49,6 +49,7 @@ export class ModeNormal extends Mode {
     { keys: 'ctrl+f', actions: [ActionPage.down] },
     { keys: 'ctrl+y', actions: [ActionScroll.up] },
     { keys: 'ctrl+e', actions: [ActionScroll.down] },
+    { keys: 'R', actions: [ActionMode.toReplace] },
     { keys: 'i', actions: [ActionMode.toInsert] },
     {
       keys: 'I',

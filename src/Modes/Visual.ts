@@ -110,6 +110,21 @@ export class ModeVisual extends Mode {
       args: { shouldYank: true },
     },
     {
+      keys: 'R',
+      actions: [
+        () =>
+          ActionMoveCursor.byMotions({
+            motions: [MotionLine.firstNonBlank()],
+          }),
+        ActionDelete.byMotions,
+        ActionMode.toInsert,
+      ],
+      args: {
+        motions: [MotionLine.end()],
+        shouldYank: true,
+      },
+    },
+    {
       keys: 'y',
       actions: [ActionRegister.yankSelections, ActionSelection.shrinkToStarts],
     },
@@ -128,7 +143,6 @@ export class ModeVisual extends Mode {
       keys: 'J',
       actions: [ActionJoinLines.onSelections, ActionSelection.shrinkToActives],
     },
-
     {
       keys: 'p',
       actions: [ActionReplace.selectionsWithRegister],
@@ -139,12 +153,10 @@ export class ModeVisual extends Mode {
       actions: [ActionReplace.selectionsWithRegister],
       args: { shouldYank: true },
     },
-
     {
       keys: 'r {char}',
       actions: [ActionReplace.selectionsWithCharacter, ActionSelection.shrinkToStarts],
     },
-
     {
       keys: '~',
       actions: [ActionCase.switchSelections, ActionSelection.shrinkToStarts],
@@ -161,9 +173,7 @@ export class ModeVisual extends Mode {
       keys: 'g ?',
       actions: [ActionCase.rot13Selections, ActionSelection.shrinkToStarts],
     },
-
     { keys: '=', actions: [ActionFilter.Format.bySelections] },
-
     {
       keys: '<',
       actions: [ActionIndent.decrease],
@@ -174,17 +184,13 @@ export class ModeVisual extends Mode {
       actions: [ActionIndent.increase],
       args: { isVisualMode: true },
     },
-
     { keys: '/', actions: [ActionFind.focusFindWidget] },
-
     { keys: 'V', actions: [ActionMode.toVisualLine] },
     { keys: 'v', actions: [ActionSelection.shrinkToActives] },
-
     { keys: 'z c', actions: [ActionFold.fold] },
     { keys: 'z o', actions: [ActionFold.unfold] },
     { keys: 'z M', actions: [ActionFold.foldAll] },
     { keys: 'z R', actions: [ActionFold.unfoldAll] },
-
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToActives],

@@ -87,6 +87,11 @@
         "when": "editorTextFocus && evil.mode != 'INSERT'"
       },
       {
+        "command": "evil.backspace",
+        "key": "backspace",
+        "when": "editorTextFocus && evil.mode != 'INSERT'"
+      },
+      {
         "command": "evil.left",
         "key": "left",
         "when": "editorTextFocus && evil.mode != 'INSERT'"

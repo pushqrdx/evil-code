@@ -29,6 +29,12 @@ export class ActionMode {
     return commands.executeCommand(`evil.mode.${ModeID.INSERT}`)
   }
 
+  @StaticReflect.metadata(SymbolMetadata.Action.isChange, true)
+  @StaticReflect.metadata(SymbolMetadata.Action.shouldSkipOnRepeat, true)
+  static toReplace(): Thenable<boolean | undefined> {
+    return commands.executeCommand(`evil.mode.${ModeID.REPLACE}`)
+  }
+
   static switchByActiveSelections(currentMode: ModeID | null): Thenable<boolean> {
     const activeTextEditor = window.activeTextEditor
 
@@ -36,7 +42,7 @@ export class ActionMode {
       return Promise.resolve(false)
     }
 
-    if (currentMode === ModeID.INSERT) {
+    if (currentMode === ModeID.INSERT || currentMode === ModeID.REPLACE) {
       return Promise.resolve(true)
     }
 

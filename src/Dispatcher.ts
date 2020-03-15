@@ -11,6 +11,7 @@ import { ActionFind } from './Actions/Find'
 import { ActionMoveCursor } from './Actions/MoveCursor'
 import { Configuration } from './Configuration'
 import { StatusBar } from './Utils/StatusBar'
+import { ModeReplace } from './Modes/Replace'
 
 export class Dispatcher {
   private _currentMode: Mode
@@ -25,6 +26,7 @@ export class Dispatcher {
     [ModeID.VISUAL]: new ModeVisual(),
     [ModeID.VISUAL_LINE]: new ModeVisualLine(),
     [ModeID.INSERT]: new ModeInsert(),
+    [ModeID.REPLACE]: new ModeReplace(),
   }
 
   private disposables: Disposable[] = [this._bar]

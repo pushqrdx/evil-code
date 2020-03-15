@@ -21,6 +21,7 @@ import { ActionNativeEscape } from '../Actions/NativeEscape'
 import { ActionMode } from '../Actions/Mode'
 import { ActionIndent } from '../Actions/Indent'
 import { ActionFold } from '../Actions/Fold'
+import { MotionLine } from '../Motions/Line'
 
 import { Mode, ModeID } from './Mode'
 
@@ -109,6 +110,21 @@ export class ModeVisualLine extends Mode {
       keys: 'S',
       actions: [ActionDelete.byLines, ActionInsert.newLineBefore, ActionMode.toInsert],
       args: { shouldYank: true },
+    },
+    {
+      keys: 'R',
+      actions: [
+        () =>
+          ActionMoveCursor.byMotions({
+            motions: [MotionLine.firstNonBlank()],
+          }),
+        ActionDelete.byMotions,
+        ActionMode.toInsert,
+      ],
+      args: {
+        motions: [MotionLine.end()],
+        shouldYank: true,
+      },
     },
     {
       keys: 'y',
