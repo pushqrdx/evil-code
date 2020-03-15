@@ -15,10 +15,9 @@ export class TextObjectParagraph extends TextObject {
 
   findStartRange(document: TextDocument, anchor: Position): Range | null {
     const line = document.lineAt(anchor.line)
-    const num = line.lineNumber
 
-    if (!line.isEmptyOrWhitespace && num > 0) {
-      return this.findStartRange(document, new Position(num - 1, 0))
+    if (!line.isEmptyOrWhitespace && anchor.line > 0) {
+      return this.findStartRange(document, new Position(anchor.line - 1, 0))
     }
 
     return line.rangeIncludingLineBreak
@@ -26,10 +25,9 @@ export class TextObjectParagraph extends TextObject {
 
   findEndRange(document: TextDocument, anchor: Position): Range | null {
     const line = document.lineAt(anchor.line)
-    const num = line.lineNumber
 
-    if (!line.isEmptyOrWhitespace && num < document.lineCount) {
-      return this.findEndRange(document, new Position(num + 1, 0))
+    if (!line.isEmptyOrWhitespace && anchor.line + 1 < document.lineCount) {
+      return this.findEndRange(document, new Position(anchor.line + 1, 0))
     }
 
     return line.rangeIncludingLineBreak

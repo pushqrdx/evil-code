@@ -47,7 +47,6 @@ export class TextObjectAnyBlock extends TextObject {
 
   findStartRange(document: TextDocument, anchor: Position): Range | null {
     const line = document.lineAt(anchor.line)
-    const num = line.lineNumber
     const text = line.text.split('')
     const length = anchor.character || text.length
 
@@ -60,7 +59,7 @@ export class TextObjectAnyBlock extends TextObject {
         this.stack.push({
           value: c,
           offset: i,
-          line: num,
+          line: anchor.line,
         })
         continue
       }
@@ -69,7 +68,7 @@ export class TextObjectAnyBlock extends TextObject {
         this.openingCharacter = {
           value: c,
           offset: i,
-          line: num,
+          line: anchor.line,
         }
         break
       }
@@ -83,8 +82,8 @@ export class TextObjectAnyBlock extends TextObject {
       }
     }
 
-    if (this.openingCharacter === null && num > 0 && !this.singleLine) {
-      return this.findStartRange(document, new Position(num - 1, 0))
+    if (this.openingCharacter === null && anchor.line > 0 && !this.singleLine) {
+      return this.findStartRange(document, new Position(anchor.line - 1, 0))
     }
 
     if (this.openingCharacter) {
@@ -107,7 +106,6 @@ export class TextObjectAnyBlock extends TextObject {
     }
 
     const line = document.lineAt(recursive ? anchor.line : this.openingCharacter.line)
-    const num = line.lineNumber
     const text = line.text.split('')
     const offset = recursive ? anchor.character : this.openingCharacter.offset
 
@@ -120,7 +118,7 @@ export class TextObjectAnyBlock extends TextObject {
         this.stack.push({
           value: c,
           offset: i,
-          line: num,
+          line: anchor.line,
         })
         continue
       }
@@ -137,14 +135,18 @@ export class TextObjectAnyBlock extends TextObject {
         this.closingCharacter = {
           value: c,
           offset: i,
-          line: num,
+          line: anchor.line,
         }
         break
       }
     }
 
-    if (this.closingCharacter === null && num < document.lineCount && !this.singleLine) {
-      return this.findEndRange(document, new Position(num + 1, 0), true)
+    if (
+      this.closingCharacter === null &&
+      anchor.line + 1 < document.lineCount &&
+      !this.singleLine
+    ) {
+      return this.findEndRange(document, new Position(anchor.line + 1, 0), true)
     }
 
     if (this.closingCharacter) {
