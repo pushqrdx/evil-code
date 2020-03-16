@@ -59,86 +59,33 @@ export function getNode(
   return foundNode
 }
 
-export function getHtmlNode(
-  document: TextDocument,
-  root: Node | undefined,
-  position: Position,
-  includeNodeBoundary: boolean,
-): HtmlNode | undefined {
-  let currentNode = getNode(root, position, includeNodeBoundary) as HtmlNode
+function getHtmlRange(editor: TextEditor, rootNode: HtmlNode, position: Position): Range[] {
+  const node = getNode(rootNode, position, true) as HtmlNode
 
-  if (!currentNode) {
-    return
-  }
-
-  const isTemplateScript =
-    currentNode.name === 'script' &&
-    currentNode.attributes &&
-    currentNode.attributes.some(
-      (x) =>
-        x.name.toString() === 'type' &&
-        allowedMimeTypesInScriptTag.indexOf(x.value.toString()) > -1,
-    )
-
-  if (
-    isTemplateScript &&
-    currentNode.close &&
-    position.isAfter(currentNode.open.end) &&
-    position.isBefore(currentNode.close.start)
-  ) {
-    const buffer = new DocumentStreamReader(
-      document,
-      currentNode.open.end,
-      new Range(currentNode.open.end, currentNode.close.start),
-    )
-
-    try {
-      const scriptInnerNodes = parse(buffer)
-
-      currentNode =
-        (getNode(scriptInnerNodes, position, includeNodeBoundary) as HtmlNode) || currentNode
-    } catch (e) {
-      // ignore
-    }
-  }
-
-  return currentNode
-}
-
-function getHtmlRange(
-  editor: TextEditor,
-  rootNode: HtmlNode,
-  position: Position,
-  indentInSpaces: string,
-): Range[] {
-  const nodeToUpdate = getHtmlNode(editor.document, rootNode, position, true)
-
-  if (!nodeToUpdate) {
+  if (!node) {
     return []
   }
 
-  const openRange = new Range(nodeToUpdate.open.start, nodeToUpdate.open.end)
+  const line = editor.document.lineAt(node.start)
+  let openRange = new Range(node.open.start, node.open.end)
+
+  if (line.range.isEqual(new Range(node.open.start, node.open.end))) {
+    // this is a special case to mimic vim selecting everything including
+    // line breaks
+    openRange = openRange.with({
+      end: node.open.start.translate(0, node.open.end.character + 2),
+    })
+  }
+
   let closeRange: Range | null = null
 
-  if (nodeToUpdate.close) {
-    closeRange = new Range(nodeToUpdate.close.start, nodeToUpdate.close.end)
+  if (node.close) {
+    closeRange = new Range(node.close.start, node.close.end)
+  } else {
+    closeRange = openRange
   }
 
-  const ranges = [openRange]
-
-  if (closeRange) {
-    for (let i = openRange.start.line + 1; i <= closeRange.start.line; i++) {
-      const lineContent = editor.document.lineAt(i).text
-
-      if (lineContent.startsWith('\t')) {
-        ranges.push(new Range(i, 0, i, 1))
-      } else if (lineContent.startsWith(indentInSpaces)) {
-        ranges.push(new Range(i, 0, i, indentInSpaces.length))
-      }
-    }
-
-    ranges.push(closeRange)
-  }
+  const ranges = [openRange, closeRange]
 
   return ranges
 }
@@ -155,12 +102,5 @@ export function selectTag(anchor: Position): Range[] {
     return []
   }
 
-  let indentInSpaces = ''
-  const tabSize: number = editor.options.tabSize ? +editor.options.tabSize : 0
-
-  for (let i = 0; i < tabSize || 0; i++) {
-    indentInSpaces += ' '
-  }
-
-  return getHtmlRange(editor, rootNode, anchor, indentInSpaces)
+  return getHtmlRange(editor, rootNode, anchor)
 }
