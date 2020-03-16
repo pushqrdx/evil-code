@@ -20,6 +20,7 @@ import { ActionFilter } from '../Actions/Filter'
 import { ActionMode } from '../Actions/Mode'
 import { MotionCharacter } from '../Motions/Character'
 import { MotionLine } from '../Motions/Line'
+import { ActionCommandLine } from '../Actions/CommandLine'
 
 import { Mode, ModeID } from './Mode'
 
@@ -279,6 +280,7 @@ export class ModeNormal extends Mode {
     { keys: 'v', actions: [ActionMode.toVisual] },
     { keys: 'V', actions: [ActionMode.toVisualLine] },
     { keys: '.', actions: [this.repeatRecordedCommandMaps.bind(this)] },
+    { keys: ':', actions: [ActionCommandLine.promptAndRun] },
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToPrimaryActive],

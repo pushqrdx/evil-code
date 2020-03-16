@@ -8,7 +8,6 @@ import { ActionPage } from '../Actions/Page'
 import { ActionReveal } from '../Actions/Reveal'
 import { ActionScroll } from '../Actions/Scroll'
 import { ActionFold } from '../Actions/Fold'
-import { ActionCommandLine } from '../Actions/CommandLine'
 
 export enum ModeID {
   NORMAL,
@@ -56,7 +55,6 @@ export abstract class Mode {
     { keys: 'z o', actions: [ActionFold.unfold] },
     { keys: 'z M', actions: [ActionFold.foldAll] },
     { keys: 'z R', actions: [ActionFold.unfoldAll] },
-    { keys: ':', actions: [ActionCommandLine.promptAndRun] },
   ]
 
   constructor() {

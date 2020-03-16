@@ -16,6 +16,7 @@ import { ActionFilter } from '../Actions/Filter'
 import { ActionNativeEscape } from '../Actions/NativeEscape'
 import { ActionMode } from '../Actions/Mode'
 import { MotionLine } from '../Motions/Line'
+import { ActionCommandLine } from '../Actions/CommandLine'
 
 import { Mode, ModeID } from './Mode'
 
@@ -85,6 +86,7 @@ export class ModeVisualBase extends Mode {
       actions: [ActionCase.rot13Selections, ActionSelection.shrinkToStarts],
     },
     { keys: '=', actions: [ActionFilter.Format.bySelections] },
+    { keys: ':', actions: [ActionCommandLine.promptAndRun] },
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToActives],
