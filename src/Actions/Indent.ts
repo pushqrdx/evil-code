@@ -26,12 +26,9 @@ export class ActionIndent {
     }
 
     const tabSize = Configuration.getTabSize()
-
     const line = document.lineAt(lineNumber)
-
     const indentText = line.text.substr(0, line.firstNonWhitespaceCharacterIndex)
     const tabCount = UtilText.countStringAppearance('\t', indentText)
-
     const indentLength =
       tabCount > 0 ? indentText.length + tabCount * (tabSize - 1) : indentText.length
 
@@ -55,7 +52,6 @@ export class ActionIndent {
 
     const document = activeTextEditor.document
     const indentUnit = ActionIndent.getIndentUnit()
-
     const lineNumbers: { [lineNumber: number]: boolean } = {}
 
     if (args.preferredRelativeRange) {
@@ -86,7 +82,6 @@ export class ActionIndent {
           }
 
           const line = document.lineAt(lineNumber)
-
           const currentIndentLevel = ActionIndent.getIndentLevel(lineNumber, document)
           let toIndentLevel =
             args.indentLevelOffset > 0
