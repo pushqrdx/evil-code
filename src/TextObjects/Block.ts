@@ -3,7 +3,7 @@ import { TextDocument, Position, Range } from 'vscode'
 import { TextObject } from './TextObject'
 
 export class TextObjectBlock extends TextObject {
-  protected readonly shouldExpandToLinewise = false
+  protected readonly shouldExpandToLinewise = true
 
   private openingCharacter: string
   private closingCharacter: string
