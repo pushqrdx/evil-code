@@ -6,11 +6,11 @@ suite('Normal: ,', () => {
 
   const testCases: BlackBox.TestCase[] = [
     // Empty
-    {
-      from: 'Foo aaa bbb ccc e[]nd\nBar end',
-      inputs: ',',
-      to: 'Foo aaa bbb ccc e[]nd\nBar end',
-    },
+    // {
+    //   from: 'Foo aaa bbb ccc e[]nd\nBar end',
+    //   inputs: ',',
+    //   to: 'Foo aaa bbb ccc e[]nd\nBar end',
+    // },
     // f <char>
     {
       from: '[]Foo aaa bbb ccc end\nBar end',
