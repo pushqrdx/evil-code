@@ -6,6 +6,8 @@ import { TextObject } from '../TextObjects/TextObject'
 import { UtilSelection } from '../Utils/Selection'
 import { UtilRange } from '../Utils/Range'
 
+import { ActionReveal } from './Reveal'
+
 export class ActionSelection {
   static validateSelections(): Thenable<boolean> {
     const currentMode = getCurrentMode()
@@ -191,5 +193,19 @@ export class ActionSelection {
     })
 
     return Promise.resolve(true)
+  }
+
+  static flipAnchor(): Thenable<boolean> {
+    const activeTextEditor = window.activeTextEditor
+
+    if (!activeTextEditor) {
+      return Promise.resolve(false)
+    }
+
+    activeTextEditor.selections = activeTextEditor.selections.map((selection) => {
+      return new Selection(selection.active, selection.anchor)
+    })
+
+    return ActionReveal.primaryCursor()
   }
 }

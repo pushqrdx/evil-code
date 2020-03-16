@@ -24,11 +24,11 @@ export class ModeVisualBase extends Mode {
   protected maps: CommandMap[] = [
     {
       keys: 'o',
-      actions: [ActionMoveCursor.bySelection],
+      actions: [ActionSelection.flipAnchor],
     },
     {
       keys: 'O',
-      actions: [ActionMoveCursor.bySelection],
+      actions: [ActionSelection.flipAnchor],
     },
     {
       keys: 'I',
