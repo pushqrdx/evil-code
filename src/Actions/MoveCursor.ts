@@ -127,4 +127,18 @@ export class ActionMoveCursor {
 
     return ActionReveal.primaryCursor()
   }
+
+  static bySelection(): Thenable<boolean> {
+    const activeTextEditor = window.activeTextEditor
+
+    if (!activeTextEditor) {
+      return Promise.resolve(false)
+    }
+
+    activeTextEditor.selections = activeTextEditor.selections.map((selection) => {
+      return new Selection(selection.active, selection.anchor)
+    })
+
+    return ActionReveal.primaryCursor()
+  }
 }

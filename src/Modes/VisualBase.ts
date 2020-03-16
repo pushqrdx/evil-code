@@ -23,6 +23,14 @@ import { Mode, ModeID } from './Mode'
 export class ModeVisualBase extends Mode {
   protected maps: CommandMap[] = [
     {
+      keys: 'o',
+      actions: [ActionMoveCursor.bySelection],
+    },
+    {
+      keys: 'O',
+      actions: [ActionMoveCursor.bySelection],
+    },
+    {
       keys: 'I',
       actions: [ActionSelection.shrinkToStarts, ActionMode.toInsert],
     },

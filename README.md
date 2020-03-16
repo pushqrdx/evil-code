@@ -8,6 +8,7 @@ The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visual
 
 ## Differences from amVim
 
+- Flipping selection anchor using "o" in Visual modes
 - Replace (Overtype) Mode
 - Repeating motions in visual mode to expand selection
 - AnyBlock TextObject for easy ({[ selections
