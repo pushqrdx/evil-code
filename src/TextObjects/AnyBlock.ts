@@ -2,6 +2,7 @@ import { TextDocument, Position, Range } from 'vscode'
 
 import { TextObject } from './TextObject'
 
+// TODO = CharacterPair
 interface Character {
   value: string
   offset: number

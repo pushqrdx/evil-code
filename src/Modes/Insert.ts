@@ -20,7 +20,7 @@ export class ModeInsert extends Mode {
   id = ModeID.INSERT
   name = 'INSERT'
 
-  private maps: CommandMap[] = [
+  protected maps: CommandMap[] = [
     {
       keys: 'ctrl+w',
       actions: [

@@ -1,5 +1,3 @@
-import { TextEditorRevealType } from 'vscode'
-
 import { StaticReflect } from '../LanguageExtensions/StaticReflect'
 import { SymbolMetadata } from '../Symbols/Metadata'
 import { Configuration } from '../Configuration'
@@ -7,13 +5,11 @@ import { CommandMap } from '../Mappers/Command'
 import { ActionBlockCursor } from '../Actions/BlockCursor'
 import { ActionRelativeLineNumbers } from '../Actions/RelativeLineNumbers'
 import { ActionMoveCursor } from '../Actions/MoveCursor'
-import { ActionPage } from '../Actions/Page'
 import { ActionInsert } from '../Actions/Insert'
 import { ActionDelete } from '../Actions/Delete'
 import { ActionReplace } from '../Actions/Replace'
 import { ActionCase } from '../Actions/Case'
 import { ActionRegister } from '../Actions/Register'
-import { ActionReveal } from '../Actions/Reveal'
 import { ActionNativeEscape } from '../Actions/NativeEscape'
 import { ActionJoinLines } from '../Actions/JoinLines'
 import { ActionFind } from '../Actions/Find'
@@ -22,9 +18,6 @@ import { ActionHistory } from '../Actions/History'
 import { ActionIndent } from '../Actions/Indent'
 import { ActionFilter } from '../Actions/Filter'
 import { ActionMode } from '../Actions/Mode'
-import { ActionScroll } from '../Actions/Scroll'
-import { ActionFold } from '../Actions/Fold'
-import { ActionCommandLine } from '../Actions/CommandLine'
 import { MotionCharacter } from '../Motions/Character'
 import { MotionLine } from '../Motions/Line'
 
@@ -34,7 +27,7 @@ export class ModeNormal extends Mode {
   id = ModeID.NORMAL
   name = 'NORMAL'
 
-  private maps: CommandMap[] = [
+  protected maps: CommandMap[] = [
     {
       keys: '{motion}',
       actions: [ActionMoveCursor.byMotions],
@@ -45,11 +38,6 @@ export class ModeNormal extends Mode {
       actions: [ActionMoveCursor.byMotions],
       args: { noEmptyAtLineEnd: true },
     },
-    { keys: 'ctrl+b', actions: [ActionPage.up] },
-    { keys: 'ctrl+f', actions: [ActionPage.down] },
-    { keys: 'ctrl+y', actions: [ActionScroll.up] },
-    { keys: 'ctrl+e', actions: [ActionScroll.down] },
-    { keys: 'R', actions: [ActionMode.toReplace] },
     { keys: 'i', actions: [ActionMode.toInsert] },
     {
       keys: 'I',
@@ -238,6 +226,7 @@ export class ModeNormal extends Mode {
     },
     { keys: 'J', actions: [ActionJoinLines.onSelections] },
     { keys: 'r {char}', actions: [ActionReplace.charactersWithCharacter] },
+    { keys: 'R', actions: [ActionMode.toReplace] },
     {
       keys: '~',
       actions: [
@@ -289,26 +278,6 @@ export class ModeNormal extends Mode {
     { keys: '/', actions: [ActionFind.focusFindWidget] },
     { keys: 'v', actions: [ActionMode.toVisual] },
     { keys: 'V', actions: [ActionMode.toVisualLine] },
-    {
-      keys: 'z .',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.InCenter },
-    },
-    {
-      keys: 'z z',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.InCenter },
-    },
-    {
-      keys: 'z t',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.AtTop },
-    },
-    { keys: 'z c', actions: [ActionFold.fold] },
-    { keys: 'z o', actions: [ActionFold.unfold] },
-    { keys: 'z M', actions: [ActionFold.foldAll] },
-    { keys: 'z R', actions: [ActionFold.unfoldAll] },
-    { keys: ':', actions: [ActionCommandLine.promptAndRun] },
     { keys: '.', actions: [this.repeatRecordedCommandMaps.bind(this)] },
     {
       keys: 'ctrl+c',

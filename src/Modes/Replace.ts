@@ -18,7 +18,7 @@ export class ModeReplace extends Mode {
   id = ModeID.REPLACE
   name = 'REPLACE'
 
-  private maps: CommandMap[] = [
+  protected maps: CommandMap[] = [
     {
       keys: 'ctrl+c',
       actions: [
