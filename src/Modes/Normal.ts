@@ -1,3 +1,5 @@
+import { TextEditorRevealType } from 'vscode'
+
 import { StaticReflect } from '../LanguageExtensions/StaticReflect'
 import { SymbolMetadata } from '../Symbols/Metadata'
 import { Configuration } from '../Configuration'
@@ -21,6 +23,8 @@ import { ActionMode } from '../Actions/Mode'
 import { MotionCharacter } from '../Motions/Character'
 import { MotionLine } from '../Motions/Line'
 import { ActionCommandLine } from '../Actions/CommandLine'
+import { ActionReveal } from '../Actions/Reveal'
+import { ActionFold } from '../Actions/Fold'
 
 import { Mode, ModeID } from './Mode'
 
@@ -281,6 +285,30 @@ export class ModeNormal extends Mode {
     { keys: 'V', actions: [ActionMode.toVisualLine] },
     { keys: '.', actions: [this.repeatRecordedCommandMaps.bind(this)] },
     { keys: ':', actions: [ActionCommandLine.promptAndRun] },
+    {
+      keys: 'z .',
+      actions: [ActionReveal.primaryCursor],
+      args: { revealType: TextEditorRevealType.InCenter },
+    },
+    {
+      keys: 'z z',
+      actions: [ActionReveal.primaryCursor],
+      args: { revealType: TextEditorRevealType.InCenter },
+    },
+    {
+      keys: 'z t',
+      actions: [ActionReveal.primaryCursor],
+      args: { revealType: TextEditorRevealType.AtTop },
+    },
+    {
+      keys: 'z b',
+      actions: [ActionReveal.primaryCursor],
+      args: { revealType: TextEditorRevealType.Default },
+    },
+    { keys: 'z c', actions: [ActionFold.fold] },
+    { keys: 'z o', actions: [ActionFold.unfold] },
+    { keys: 'z M', actions: [ActionFold.foldAll] },
+    { keys: 'z R', actions: [ActionFold.unfoldAll] },
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToPrimaryActive],

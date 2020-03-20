@@ -1,13 +1,9 @@
-import { TextEditorRevealType } from 'vscode'
-
 import { StaticReflect } from '../LanguageExtensions/StaticReflect'
 import { SymbolMetadata } from '../Symbols/Metadata'
 import { MatchResultKind } from '../Mappers/Generic'
 import { CommandMap, CommandMapper } from '../Mappers/Command'
 import { ActionPage } from '../Actions/Page'
-import { ActionReveal } from '../Actions/Reveal'
 import { ActionScroll } from '../Actions/Scroll'
-import { ActionFold } from '../Actions/Fold'
 
 export enum ModeID {
   NORMAL,
@@ -31,30 +27,6 @@ export abstract class Mode {
     { keys: 'ctrl+f', actions: [ActionPage.down] },
     { keys: 'ctrl+y', actions: [ActionScroll.up] },
     { keys: 'ctrl+e', actions: [ActionScroll.down] },
-    {
-      keys: 'z .',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.InCenter },
-    },
-    {
-      keys: 'z z',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.InCenter },
-    },
-    {
-      keys: 'z t',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.AtTop },
-    },
-    {
-      keys: 'z b',
-      actions: [ActionReveal.primaryCursor],
-      args: { revealType: TextEditorRevealType.Default },
-    },
-    { keys: 'z c', actions: [ActionFold.fold] },
-    { keys: 'z o', actions: [ActionFold.unfold] },
-    { keys: 'z M', actions: [ActionFold.foldAll] },
-    { keys: 'z R', actions: [ActionFold.unfoldAll] },
   ]
 
   constructor() {
