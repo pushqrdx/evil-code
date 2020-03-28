@@ -26,6 +26,13 @@ export class MotionLine extends Motion {
     return obj
   }
 
+  static absolute(args: { n: number; c: number }): Motion {
+    const obj = new MotionLine()
+
+    obj.translate(args.n, args.c)
+    return obj
+  }
+
   apply(from: Position): Position {
     from = super.apply(from)
 
