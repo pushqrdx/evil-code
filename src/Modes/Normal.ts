@@ -25,6 +25,7 @@ import { MotionLine } from '../Motions/Line'
 import { ActionCommandLine } from '../Actions/CommandLine'
 import { ActionReveal } from '../Actions/Reveal'
 import { ActionFold } from '../Actions/Fold'
+import { ActionBookmark } from '../Actions/Bookmark'
 
 import { Mode, ModeID } from './Mode'
 
@@ -309,6 +310,11 @@ export class ModeNormal extends Mode {
     { keys: 'z o', actions: [ActionFold.unfold] },
     { keys: 'z M', actions: [ActionFold.foldAll] },
     { keys: 'z R', actions: [ActionFold.unfoldAll] },
+    {
+      keys: 'm {char}',
+      actions: [ActionBookmark.toggle, ActionBookmark.decorate, ActionBookmark.save],
+    },
+    { keys: '` {char}', actions: [ActionBookmark.jump] },
     {
       keys: 'ctrl+c',
       actions: [ActionNativeEscape.press, ActionSelection.shrinkToPrimaryActive],

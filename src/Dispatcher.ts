@@ -1,4 +1,4 @@
-import { window, commands, Disposable, ExtensionContext } from 'vscode'
+import { window, workspace, commands, Disposable, ExtensionContext } from 'vscode'
 
 import * as Keys from './Keys'
 import { Mode, ModeID } from './Modes/Mode'
@@ -12,10 +12,12 @@ import { ActionMoveCursor } from './Actions/MoveCursor'
 import { Configuration } from './Configuration'
 import { StatusBar } from './Utils/StatusBar'
 import { ModeReplace } from './Modes/Replace'
+import { ActionBookmark } from './Actions/Bookmark'
 
 export class Dispatcher {
   private _currentMode: Mode
   private _bar = new StatusBar()
+  private _lineCache = new Map<string, number>()
 
   get currentMode(): Mode {
     return this._currentMode
@@ -32,6 +34,8 @@ export class Dispatcher {
   private disposables: Disposable[] = [this._bar]
 
   constructor(context: ExtensionContext) {
+    const memento = context.workspaceState
+
     Object.keys(this.modes).forEach((key) => {
       const mode = this.modes[key]
 
@@ -64,11 +68,16 @@ export class Dispatcher {
       commands.registerCommand('evil.executeNativeFind', ActionFind.executeNativeFind),
     )
 
+    ActionBookmark.load(memento)
+    ActionBookmark.decorate()
     ActionMoveCursor.updatePreferredColumn()
 
     this.switchMode(Configuration.defaultModeID)
 
     this.disposables.push(
+      window.onDidChangeTextEditorVisibleRanges((e) => {
+        this._lineCache.set(e.textEditor.document.fileName, e.textEditor.document.lineCount)
+      }),
       window.onDidChangeTextEditorSelection(() => {
         // Ensure this is executed after all pending commands.
         setTimeout(() => {
@@ -86,6 +95,26 @@ export class Dispatcher {
         }
 
         ActionMoveCursor.updatePreferredColumn()
+        ActionBookmark.decorate()
+      }),
+      workspace.onDidChangeTextDocument((e) => {
+        if (!e.contentChanges.length) return
+
+        const changed = e.contentChanges[0]?.range.start.line
+        const mutatedLine = e.document.lineAt(changed < 0 ? 0 : changed)?.lineNumber
+        const delta =
+          e.document.lineCount - (this._lineCache.get(e.document.fileName) || e.document.lineCount)
+
+        this._lineCache.set(e.document.fileName, e.document.lineCount)
+
+        if (delta === 0) {
+          return
+        }
+
+        ActionBookmark.adjust(e.document.fileName, mutatedLine, delta).then(() => {
+          ActionBookmark.decorate()
+          ActionBookmark.save()
+        })
       }),
     )
   }
