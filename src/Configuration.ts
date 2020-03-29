@@ -1,4 +1,12 @@
-import { commands, window, workspace, WorkspaceConfiguration, Disposable } from 'vscode'
+import {
+  commands,
+  window,
+  workspace,
+  WorkspaceConfiguration,
+  Disposable,
+  Memento,
+  ExtensionContext,
+} from 'vscode'
 
 import { ModeID } from './Modes/Mode'
 import { UtilWord } from './Utils/Word'
@@ -26,11 +34,37 @@ export class Configuration {
     return this._useSystemClipboard
   }
 
-  static init(): void {
+  private static _showMarksAsDecorations: boolean
+
+  static get showMarksAsDecorations(): boolean {
+    return this._showMarksAsDecorations
+  }
+
+  private static _marksGutterForeground: string
+
+  static get marksGutterForeground(): string {
+    return this._marksGutterForeground
+  }
+
+  private static _workspaceMemento: Memento
+
+  static get workspaceMemento(): Memento {
+    return this._workspaceMemento
+  }
+
+  private static _globalMemento: Memento
+
+  static get globalMemento(): Memento {
+    return this._globalMemento
+  }
+
+  static init(context: ExtensionContext): void {
     if (this.isReady) {
       return
     }
 
+    this._workspaceMemento = context.workspaceState
+    this._globalMemento = context.globalState
     this.isReady = true
     this.onDidChangeConfiguration()
     this.disposables.push(workspace.onDidChangeConfiguration(() => this.onDidChangeConfiguration()))
@@ -50,6 +84,16 @@ export class Configuration {
     )
 
     this._useSystemClipboard = this.getExtensionSetting<boolean>('useSystemClipboard', false)
+
+    this._marksGutterForeground = this.getExtensionSetting<string>(
+      'marksGutterForeground',
+      '#c5c5c5',
+    )
+
+    this._showMarksAsDecorations = this.getExtensionSetting<boolean>(
+      'showMarksAsDecorations',
+      false,
+    )
 
     UtilWord.updateCharacterKindCache(
       this.getEditorSetting<string>('wordSeparators', '`~!@#$%^&*()-=+[{]}\\|;:\'",.<>/?'),

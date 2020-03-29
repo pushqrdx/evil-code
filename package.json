@@ -72,6 +72,16 @@
           "type": "boolean",
           "default": true,
           "description": "Set to `false` to disable Vim style navigation in sidebar."
+        },
+        "evil.showMarksAsDecorations": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to `true` to show marks in the gutter."
+        },
+        "evil.marksGutterForeground": {
+          "type": "string",
+          "default": "#c5c5c5",
+          "description": "Set to change the gutter mark color."
         }
       }
     },

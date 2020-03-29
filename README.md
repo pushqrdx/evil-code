@@ -8,6 +8,7 @@ The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visual
 
 ## Differences from amVim
 
+- Marks with the ability to show line mark in the gutter
 - Flipping selection anchor using "o" in Visual modes
 - Replace (Overtype) Mode
 - Repeating motions in visual mode to expand selection
@@ -66,6 +67,18 @@ Set to `true` to copy to and paste from the system clipboard.
 `Boolean`, Default: `true`
 
 Set to `false` to disable Vim style navigation in sidebar.
+
+#### `evil.showMarksAsDecorations`
+
+`Boolean`, Default: `false`
+
+Set to `true` to show marks in the gutter.
+
+#### `evil.marksGutterForeground`
+
+`String`, Default: `#c5c5c5`
+
+Set to change the gutter mark color.
 
 ## Contributing
 

@@ -7,7 +7,7 @@ import { Mode } from './Modes/Mode'
 let dispatcher: Dispatcher
 
 export function activate(context: ExtensionContext): void {
-  Configuration.init()
+  Configuration.init(context)
   dispatcher = new Dispatcher(context)
 
   context.subscriptions.push(Configuration, dispatcher)

@@ -26,9 +26,11 @@ class Mark {
 
     this.decorator = window.createTextEditorDecorationType({
       gutterIconPath: Uri.parse(
-        `data:image/svg+xml,%3Csvg version='1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' enable-background='new 0 0 48 48'%3E%3Cstyle%3E .heavy %7B font: 42px ${font}; fill: %23${'c5c5c5'}; %7D %3C/style%3E%3Ctext text-anchor='middle' x='24' y='32' class='heavy ass'%3E${register}%3C/text%3E%3C/svg%3E`,
+        `data:image/svg+xml,%3Csvg version='1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' enable-background='new 0 0 48 48'%3E%3Cstyle%3E .heavy %7B font: 42px ${font}; fill: %23${Configuration.marksGutterForeground.substring(
+          1,
+        )}; %7D %3C/style%3E%3Ctext text-anchor='middle' x='24' y='32' class='heavy ass'%3E${register}%3C/text%3E%3C/svg%3E`,
       ),
-      overviewRulerColor: '#c5c5c5',
+      overviewRulerColor: Configuration.marksGutterForeground,
       rangeBehavior: DecorationRangeBehavior.OpenOpen,
     })
   }
