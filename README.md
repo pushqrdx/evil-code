@@ -26,7 +26,7 @@ The [Vim](http://www.vim.org/) mode for [Visual Studio Code](https://code.visual
 - Multi-cursor support
 - Works with VS Code's default behaviors
 
-## Not supported
+## Not (or partially) supported
 
 - `:` started commands: Only a few are supported now
 - Visual Block mode: Please use column-select instead for now
