@@ -194,7 +194,7 @@
       {
         "key": "enter",
         "command": "evil.executeNativeFind",
-        "when": "evil.configuration.shouldMimicVimSearchBehavior && editorFocus && findInputFocussed && findWidgetVisible"
+        "when": "evil.configuration.shouldMimicVimSearchBehavior && editorFocus && findInputFocussed && findWidgetVisible && evil.mode != 'INSERT'"
       },
       {
         "key": "j",
