@@ -18,6 +18,7 @@ export class Dispatcher {
   private _currentMode: Mode
   private _bar = new StatusBar()
   private _lineCache = new Map<string, number>()
+  private _modeCache = new Map<string, ModeID>()
 
   get currentMode(): Mode {
     return this._currentMode
@@ -86,16 +87,23 @@ export class Dispatcher {
           this._currentMode.onDidChangeTextEditorSelection()
         }, 0)
       }),
-      window.onDidChangeActiveTextEditor(() => {
+      window.onDidChangeActiveTextEditor((e) => {
+        ActionMoveCursor.updatePreferredColumn()
+        ActionBookmark.decorate()
+
+        if (e?.document) {
+          if (this._modeCache.has(e.document.fileName)) {
+            this.switchMode(this._modeCache.get(e.document.fileName) || Configuration.defaultModeID)
+            return
+          }
+        }
+
         if (Configuration.defaultModeID === ModeID.INSERT) {
           ActionMode.toInsert()
         } else {
           // Passing `null` to `currentMode` to force mode switch.
           ActionMode.switchByActiveSelections(null)
         }
-
-        ActionMoveCursor.updatePreferredColumn()
-        ActionBookmark.decorate()
       }),
       workspace.onDidChangeTextDocument((e) => {
         if (!e.contentChanges.length) return
@@ -135,6 +143,10 @@ export class Dispatcher {
     this._currentMode = this.modes[id]
     this._currentMode.enter()
     this._bar.update(`-- ${this._currentMode.name} --`)
+
+    if (window.activeTextEditor) {
+      this._modeCache.set(window.activeTextEditor?.document.fileName, id)
+    }
 
     commands.executeCommand('setContext', 'evil.mode', this._currentMode.name)
 
