@@ -57,17 +57,11 @@ export class ActionMode {
     }
 
     if (mode === currentMode) {
-      if (mode === ModeID.NORMAL) {
-        return ActionSelection.validateSelections()
-      } else {
-        return Promise.resolve(true)
-      }
+      return Promise.resolve(true)
     } else if (mode === ModeID.VISUAL && currentMode === ModeID.VISUAL_LINE) {
       return Promise.resolve(true)
     } else {
-      return commands
-        .executeCommand(`evil.mode.${mode}`)
-        .then(() => ActionSelection.validateSelections())
+      return commands.executeCommand(`evil.mode.${mode}`).then(() => true)
     }
   }
 }
